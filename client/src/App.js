@@ -4,12 +4,16 @@ import axios from 'axios';
 import './App.css';
 import PlayerList from './components/PlayerList';
 import PlayerForm from './components/PlayerForm';
+import PlayerStatus from './components/PlayerStatus';
+import Nav from './components/Nav';
 
 
 const App = () => {
   const [players, setPlayers] = useState([]);
   const[loaded, setLoaded] = useState(false);
   const [errors, setErrors] = useState({});
+  const [listPageIsActive, setListPageIsActive] = useState(true);
+  const [managePlayerStatusTabIsActive, setManagePlayerStatusTabIsActive] = useState(false);
 
   useEffect(()=> {
     axios
@@ -41,12 +45,38 @@ const App = () => {
 
   return (
     <div className="App">
-     <Link to="">Manage Players</Link>
-     <span> | </span>
-     <Link to="">Manage Player Status</Link>
+     <Nav
+        managePlayerStatusTabIsActive={managePlayerStatusTabIsActive}
+        setManagePlayerStatusTabIsActive={setManagePlayerStatusTabIsActive}
+      />
      <Router>
-      <PlayerList path="/players/list" default  players={players} setPlayers={setPlayers} removeFromDom = {removeFromDom}/>
-      <PlayerForm path="/players/addplayer" initialPlayerName={""} initialPreferredPosition={""} errors={errors} setErrors={setErrors} onSubmitProp={createPlayer}/>
+      <PlayerList 
+      path="/players/list" 
+      default  
+      players={players} 
+      setPlayers={setPlayers} 
+      removeFromDom = {removeFromDom}
+      listPageIsActive = {listPageIsActive}
+      setListPageIsActive = {setListPageIsActive}
+      setManagePlayerStatusTabIsActive = {setManagePlayerStatusTabIsActive}
+      />
+      <PlayerForm 
+      path="/players/addplayer" 
+      initialPlayerName={""} 
+      initialPreferredPosition={""} 
+      errors={errors} 
+      setErrors={setErrors} 
+      onSubmitProp={createPlayer}
+      listPageIsActive = {listPageIsActive}
+      setListPageIsActive = {setListPageIsActive}
+      setManagePlayerStatusTabIsActive = {setManagePlayerStatusTabIsActive}
+      />
+      <PlayerStatus 
+      path="/status/game/:gameId" 
+      players={players} 
+      setPlayers={setPlayers}
+      setManagePlayerStatusTabIsActive = {setManagePlayerStatusTabIsActive}
+      />
     </Router>
     </div>
     

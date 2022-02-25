@@ -2,11 +2,17 @@ import axios from "axios";
 import React, {useEffect, useState} from 'react';
 import { Link } from "@reach/router";
 import '../App.css';
+import SubNav1 from "./SubNav1";
 
 const PlayerForm = (props) => {
-    const {initialPlayerName, initialPreferredPosition, onSubmitProp, errors, setErrors} = props;
+    const {initialPlayerName, initialPreferredPosition, onSubmitProp, errors, setErrors, listPageIsActive, setListPageIsActive, setManagePlayerStatusTabIsActive} = props;
     const [playerName, setPlayerName] = useState("");
     const [preferredPosition, setPreferredPosition] = useState("");
+
+    useEffect(()=> {
+        setListPageIsActive(false);
+        setManagePlayerStatusTabIsActive(false);
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,9 +22,10 @@ const PlayerForm = (props) => {
 
     return(
         <div className="borderColor">
-                <Link to="/players/list">List</Link>
-                <span> | </span>
-                <Link to="/players/addplayer">Add Player</Link>
+                 <SubNav1
+                    listPageIsActive={listPageIsActive}
+                    setListPageIsActive={setListPageIsActive}
+                />
                 <form onSubmit={handleSubmit} className="formBorder containerDim">
                     <h3>Add Player</h3>
                     <div className="inputMargin">
